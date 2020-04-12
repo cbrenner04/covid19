@@ -3,6 +3,11 @@ const { showData } = require('../show-data');
 async function illinois(req, res) {
   const { statesData } = await showData();
   const illinoisData = statesData.filter((datum) => datum.name === 'IL');
+  const latestEntry = illinoisData[illinoisData.length - 1];
+  const totalPositive = latestEntry.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  const totalDeaths = latestEntry.deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  const percentDeaths = latestEntry.percentDead;
+  const percentTested = latestEntry.percentTested;
   const x  = illinoisData.map((datum) => datum.date);
   const posY = illinoisData.map((datum) => datum.positive);
   const deathsY = illinoisData.map((datum) => datum.deaths);
@@ -36,6 +41,10 @@ async function illinois(req, res) {
   const percentTestedData = JSON.stringify([{ x, y: percentTestedY, type: 'scatter', mode: 'lines', name: 'IL' }]);
 
   res.render('illinois', {
+    totalPositive,
+    totalDeaths,
+    percentDeaths,
+    percentTested,
     positiveData,
     positiveLayout,
     deathsData,

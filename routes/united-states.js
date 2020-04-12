@@ -3,6 +3,11 @@ const { showData } = require('../show-data');
 async function unitedStates(req, res) {
   const { countriesData } = await showData();
   const usData = countriesData.filter((datum) => datum.name === 'US');
+  const latestEntry = usData[usData.length - 1];
+  const totalPositive = latestEntry.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  const totalDeaths = latestEntry.deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  const percentDeaths = latestEntry.percentDead;
+  const percentTested = latestEntry.percentTested;
   const x  = usData.map((datum) => datum.date);
   const posY = usData.map((datum) => datum.positive);
   const deathsY = usData.map((datum) => datum.deaths);
@@ -42,6 +47,10 @@ async function unitedStates(req, res) {
   const percentRecoveredData = JSON.stringify([{ x, y: percentRecoveredY, type: 'scatter', mode: 'lines', name: 'US' }]);
 
   res.render('united-states', {
+    totalPositive,
+    totalDeaths,
+    percentDeaths,
+    percentTested,
     positiveData,
     positiveLayout,
     deathsData,
