@@ -1,0 +1,24 @@
+<h1>States</h1>
+<a href="/">Home</a>
+<br /><br />
+
+<div class="grid-container">
+  <div class="grid-item" id="states-positive-cases"></div>
+  <div class="grid-item" id="states-deaths"></div>
+  <div class="grid-item" id="states-additional-positive-cases"></div>
+  <div class="grid-item" id="states-additional-deaths"></div>
+  <div class="grid-item" id="states-percent-positive"></div>
+  <div class="grid-item" id="states-percent-deaths"></div>
+  <div class="grid-item" id="states-percent-tested"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  Plotly.newPlot('states-positive-cases', {{{positiveData}}}, {{{positiveLayout}}});
+  Plotly.newPlot('states-deaths', {{{deathsData}}}, {{{deathsLayout}}});
+  Plotly.newPlot('states-additional-positive-cases', {{{additionalPositiveData}}}, {{{additionalPositiveLayout}}});
+  Plotly.newPlot('states-additional-deaths', {{{additionalDeathsData}}}, {{{additionalDeathsLayout}}});
+  Plotly.newPlot('states-percent-positive', {{{percentPositiveData}}}, {{{percentPositiveLayout}}});
+  Plotly.newPlot('states-percent-deaths', {{{percentDeathsData}}}, {{{percentDeathsLayout}}});
+  Plotly.newPlot('states-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+</script>

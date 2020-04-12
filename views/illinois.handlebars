@@ -1,0 +1,24 @@
+<h1>Illinois</h1>
+<a href="/">Home</a>
+<br /><br />
+
+<div class="grid-container">
+  <div class="grid-item" id="illinois-positive-cases"></div>
+  <div class="grid-item" id="illinois-deaths"></div>
+  <div class="grid-item" id="illinois-additional-positive-cases"></div>
+  <div class="grid-item" id="illinois-additional-deaths"></div>
+  <div class="grid-item" id="illinois-percent-positive"></div>
+  <div class="grid-item" id="illinois-percent-deaths"></div>
+  <div class="grid-item" id="illinois-percent-tested"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  Plotly.newPlot('illinois-positive-cases', {{{positiveData}}}, {{{positiveLayout}}});
+  Plotly.newPlot('illinois-deaths', {{{deathsData}}}, {{{deathsLayout}}});
+  Plotly.newPlot('illinois-additional-positive-cases', {{{additionalPositiveData}}}, {{{additionalPositiveLayout}}});
+  Plotly.newPlot('illinois-additional-deaths', {{{additionalDeathsData}}}, {{{additionalDeathsLayout}}});
+  Plotly.newPlot('illinois-percent-positive', {{{percentPositiveData}}}, {{{percentPositiveLayout}}});
+  Plotly.newPlot('illinois-percent-deaths', {{{percentDeathsData}}}, {{{percentDeathsLayout}}});
+  Plotly.newPlot('illinois-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+</script>

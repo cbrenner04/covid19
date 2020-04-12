@@ -1,0 +1,28 @@
+<h1>United States</h1>
+<a href="/">Home</a>
+<br /><br />
+
+<div class="grid-container">
+  <div class="grid-item" id="us-positive-cases"></div>
+  <div class="grid-item" id="us-deaths"></div>
+  <div class="grid-item" id="us-additional-positive-cases"></div>
+  <div class="grid-item" id="us-additional-deaths"></div>
+  <div class="grid-item" id="us-percent-positive"></div>
+  <div class="grid-item" id="us-percent-deaths"></div>
+  <div class="grid-item" id="us-recovered"></div>
+  <div class="grid-item" id="us-percent-recovered"></div>
+  <div class="grid-item" id="us-percent-tested"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  Plotly.newPlot('us-positive-cases', {{{positiveData}}}, {{{positiveLayout}}});
+  Plotly.newPlot('us-deaths', {{{deathsData}}}, {{{deathsLayout}}});
+  Plotly.newPlot('us-additional-positive-cases', {{{additionalPositiveData}}}, {{{additionalPositiveLayout}}});
+  Plotly.newPlot('us-additional-deaths', {{{additionalDeathsData}}}, {{{additionalDeathsLayout}}});
+  Plotly.newPlot('us-percent-positive', {{{percentPositiveData}}}, {{{percentPositiveLayout}}});
+  Plotly.newPlot('us-percent-deaths', {{{percentDeathsData}}}, {{{percentDeathsLayout}}});
+  Plotly.newPlot('us-recovered', {{{recoveredData}}}, {{{recoveredLayout}}});
+  Plotly.newPlot('us-percent-recovered', {{{percentRecoveredData}}}, {{{percentRecoveredLayout}}});
+  Plotly.newPlot('us-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+</script>
