@@ -12,6 +12,7 @@
   <div class="grid-item" id="countries-recovered"></div>
   <div class="grid-item" id="countries-percent-recovered"></div>
   <div class="grid-item" id="countries-percent-tested"></div>
+  <div class="grid-item" id="countries-days-to-double"></div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -25,4 +26,5 @@
   Plotly.newPlot('countries-recovered', {{{recoveredData}}}, {{{recoveredLayout}}});
   Plotly.newPlot('countries-percent-recovered', {{{percentRecoveredData}}}, {{{percentRecoveredLayout}}});
   Plotly.newPlot('countries-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+  Plotly.newPlot('countries-days-to-double', {{{daysToDoubleData}}}, {{{daysToDoubleLayout}}});
 </script>

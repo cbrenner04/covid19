@@ -18,6 +18,7 @@
   <div class="grid-item" id="us-recovered"></div>
   <div class="grid-item" id="us-percent-recovered"></div>
   <div class="grid-item" id="us-percent-tested"></div>
+  <div class="grid-item" id="us-days-to-double"></div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -31,4 +32,5 @@
   Plotly.newPlot('us-recovered', {{{recoveredData}}}, {{{recoveredLayout}}});
   Plotly.newPlot('us-percent-recovered', {{{percentRecoveredData}}}, {{{percentRecoveredLayout}}});
   Plotly.newPlot('us-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+  Plotly.newPlot('us-days-to-double', {{{daysToDoubleData}}}, {{{daysToDoubleLayout}}});
 </script>

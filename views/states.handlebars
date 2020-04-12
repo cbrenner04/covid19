@@ -10,6 +10,7 @@
   <div class="grid-item" id="states-percent-positive"></div>
   <div class="grid-item" id="states-percent-deaths"></div>
   <div class="grid-item" id="states-percent-tested"></div>
+  <div class="grid-item" id="states-days-to-double"></div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -21,4 +22,5 @@
   Plotly.newPlot('states-percent-positive', {{{percentPositiveData}}}, {{{percentPositiveLayout}}});
   Plotly.newPlot('states-percent-deaths', {{{percentDeathsData}}}, {{{percentDeathsLayout}}});
   Plotly.newPlot('states-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
+  Plotly.newPlot('states-days-to-double', {{{daysToDoubleData}}}, {{{daysToDoubleLayout}}});
 </script>

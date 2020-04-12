@@ -1,5 +1,17 @@
 const { showData } = require('../show-data');
 
+function daysToDouble(positiveCounts) {
+  const doubleCounts = [];
+  positiveCounts.map((pos, index) => {
+    const doubledIndex = positiveCounts.findIndex(d => (d >= pos * 2));
+    if (doubledIndex >= 0) {
+      const count = doubledIndex - index;
+      doubleCounts.push(count);
+    }
+  });
+  return doubleCounts;
+}
+
 async function unitedStates(req, res) {
   const { countriesData } = await showData();
   const usData = countriesData.filter((datum) => datum.name === 'US');
@@ -36,6 +48,7 @@ async function unitedStates(req, res) {
   const percentTestedLayout = genericLayout('Percent tested');
   const recoveredLayout = genericLayout('Recovered');
   const percentRecoveredLayout = genericLayout('Percent recovered');
+  const daysToDoubleLayout = genericLayout('Days to double');
   const positiveData = JSON.stringify([{ x, y: posY, type: 'scatter', mode: 'lines', name: 'US' }]);
   const deathsData = JSON.stringify([{ x, y: deathsY, type: 'scatter', mode: 'lines', name: 'US' }]);
   const additionalPositiveData = JSON.stringify([{ x, y: addPosY, type: 'scatter', mode: 'lines', name: 'US' }]);
@@ -45,6 +58,7 @@ async function unitedStates(req, res) {
   const percentTestedData = JSON.stringify([{ x, y: percentTestedY, type: 'scatter', mode: 'lines', name: 'US' }]);
   const recoveredData = JSON.stringify([{ x, y: recoveredY, type: 'scatter', mode: 'lines', name: 'US' }]);
   const percentRecoveredData = JSON.stringify([{ x, y: percentRecoveredY, type: 'scatter', mode: 'lines', name: 'US' }]);
+  const daysToDoubleData = JSON.stringify([{ x, y: daysToDouble(posY), type: 'scatter', mode: 'lines', name: 'IL' }]);
 
   res.render('united-states', {
     totalPositive,
@@ -69,6 +83,8 @@ async function unitedStates(req, res) {
     percentRecoveredLayout,
     recoveredData,
     percentRecoveredData,
+    daysToDoubleLayout,
+    daysToDoubleData,
   });
 }
 
