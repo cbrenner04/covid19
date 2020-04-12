@@ -4,7 +4,7 @@ require('dotenv').config()
 let client;
 const connectToDB = async () => {
   client = new Client({
-    connectionString: process.env.DB_URL,
+    connectionString: process.env.DATABASE_URL,
   });
   await client.connect();
 };
