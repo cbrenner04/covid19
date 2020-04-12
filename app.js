@@ -22,4 +22,4 @@ app.get('/united-states', unitedStates);
 app.get('/states', states);
 app.get('/countries', countries);
 
-app.listen(3000);
+app.listen(process.env.PORT);
