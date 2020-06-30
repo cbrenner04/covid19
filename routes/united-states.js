@@ -20,7 +20,7 @@ async function unitedStates(req, res) {
   const totalDeaths = latestEntry.deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
   const percentDeaths = latestEntry.percentDead;
   const percentTested = latestEntry.percentTested;
-  const x  = usData.map((datum) => datum.date);
+  const x = usData.map((datum) => datum.date);
   const posY = usData.map((datum) => datum.positive);
   const deathsY = usData.map((datum) => datum.deaths);
   const addPosY = usData.map((datum) => datum.addedPositive);

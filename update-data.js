@@ -8,55 +8,52 @@ const {
   selectLatestCountriesData,
 } = require('./database');
 
-const today = (new Date()).toDateString();
+const FIVE_HOURS = 1000 * 60 * 60 * 5;
+const today = (new Date(new Date().getTime() - FIVE_HOURS)).toDateString();
 
 async function updateStatesData() {
   const data = await getCurrentStateData();
   for (datum of data) {
     const { state } = datum;
-    const date = new Date(datum.dateChecked);
-    const dateString = date.toDateString();
+    const date = (new Date(new Date(datum.dateChecked).getTime() + FIVE_HOURS)).toDateString();
 
-    if (dateString !== today) {
+    if (date !== today) {
       console.log('not today')
-      return;
+      continue;
     }
 
     const { date: latestResultDate } = await selectLatestStatesData(state);
-    const latestResultDateString = (new Date(latestResultDate)).toDateString()
+    const latestResultDateString = (new Date(new Date(latestResultDate).getTime() + FIVE_HOURS)).toDateString()
 
-    if (latestResultDateString === dateString) {
+    if (latestResultDateString === date) {
       console.log('already recorded');
-      return;
+      continue;
     }
 
-    const dataValue = date.toISOString();
-    const values = [state, dataValue, datum.positive, datum.death, datum.totalTestResults];
+    const values = [state, datum.dateChecked, datum.positive, datum.death, datum.totalTestResults];
     await insertIntoStates(values);
   }
 }
 
 async function updateCountriesData() {
   const data = await getCurrentUSData();
-  const date = new Date(data.lastModified);
-  const dateString = date.toDateString();
+  const date = (new Date(new Date(data.lastModified).getTime() + FIVE_HOURS)).toDateString();
   const name = 'US';
 
-  if (dateString !== today) {
+  if (date !== today) {
     console.log('not today');
     return;
   }
 
   const { date: latestResultDate } = await selectLatestCountriesData(name);
-  const latestResultDateString = (new Date(latestResultDate)).toDateString()
+  const latestResultDateString = (new Date(new Date(latestResultDate).getTime() + FIVE_HOURS)).toDateString()
 
-  if (latestResultDateString === dateString) {
+  if (latestResultDateString === date) {
     console.log('already recorded');
     return;
   }
 
-  const dataValue = date.toISOString();
-  const values = [name, dataValue, data.positive, data.recovered, data.death, data.totalTestResults];
+  const values = [name, data.lastModified, data.positive, data.recovered, data.death, data.totalTestResults];
   await insertIntoCountries(values);
 }
 
