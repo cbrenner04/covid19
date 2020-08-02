@@ -12,6 +12,7 @@ function genericLayout(title) {
     yaxis: {
       title,
     },
+    showlegend: false,
   });
 }
 function genericScatter(dates, data) {

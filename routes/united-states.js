@@ -13,6 +13,7 @@ function genericLayout(title) {
     yaxis: {
       title,
     },
+    showlegend: false,
   });
 }
 
