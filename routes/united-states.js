@@ -1,90 +1,115 @@
-const { showData } = require('../show-data');
+const { showData } = require("../show-data");
 
-function daysToDouble(positiveCounts) {
-  const doubleCounts = [];
-  positiveCounts.map((pos, index) => {
-    const doubledIndex = positiveCounts.findIndex(d => (d >= pos * 2));
-    if (doubledIndex >= 0) {
-      const count = doubledIndex - index;
-      doubleCounts.push(count);
-    }
+function numericalDisplay(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function genericLayout(title) {
+  return JSON.stringify({
+    title,
+    xaxis: {
+      title: "Date",
+    },
+    yaxis: {
+      title,
+    },
   });
-  return doubleCounts;
+}
+
+function genericScatter(dates, data) {
+  return JSON.stringify([
+    {
+      x: dates,
+      y: data,
+      type: "scatter",
+      mode: "lines",
+      name: "IL",
+    },
+  ]);
 }
 
 async function unitedStates(req, res) {
   const { countriesData } = await showData();
-  const usData = countriesData.filter((datum) => datum.name === 'US');
+  const usData = countriesData.filter((datum) => datum.name === "US");
   const latestEntry = usData[usData.length - 1];
-  const totalPositive = latestEntry.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-  const totalDeaths = latestEntry.deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-  const percentDeaths = latestEntry.percentDead;
-  const percentTested = latestEntry.percentTested;
-  const x = usData.map((datum) => datum.date);
-  const posY = usData.map((datum) => datum.positive);
-  const deathsY = usData.map((datum) => datum.deaths);
-  const addPosY = usData.map((datum) => datum.addedPositive);
-  const addDeathsY = usData.map((datum) => datum.addedDeaths);
-  const percentPosY = usData.map((datum) => datum.percentPositive);
-  const percentDeathsY = usData.map((datum) => datum.percentDead);
-  const percentTestedY = usData.map((datum) => datum.percentTested);
-  const recoveredY = usData.map((datum) => datum.recovered);
-  const percentRecoveredY = usData.map((datum) => datum.percentRecovered);
-  const genericLayout = (title) => JSON.stringify({
-    title,
-    xaxis: {
-      title: 'Date'
-    },
-    yaxis: {
-      title
-    }
-  });
-  const positiveLayout = genericLayout('Positive cases');
-  const deathsLayout = genericLayout('Deaths');
-  const additionalPositiveLayout = genericLayout('Added positive cases');
-  const additionalDeathsLayout = genericLayout('Added deaths');
-  const percentPositiveLayout = genericLayout('Percent positive cases');
-  const percentDeathsLayout = genericLayout('Percent deaths');
-  const percentTestedLayout = genericLayout('Percent tested');
-  const recoveredLayout = genericLayout('Recovered');
-  const percentRecoveredLayout = genericLayout('Percent recovered');
-  const daysToDoubleLayout = genericLayout('Days to double');
-  const positiveData = JSON.stringify([{ x, y: posY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const deathsData = JSON.stringify([{ x, y: deathsY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const additionalPositiveData = JSON.stringify([{ x, y: addPosY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const additionalDeathsData = JSON.stringify([{ x, y: addDeathsY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const percentPositiveData = JSON.stringify([{ x, y: percentPosY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const percentDeathsData = JSON.stringify([{ x, y: percentDeathsY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const percentTestedData = JSON.stringify([{ x, y: percentTestedY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const recoveredData = JSON.stringify([{ x, y: recoveredY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const percentRecoveredData = JSON.stringify([{ x, y: percentRecoveredY, type: 'scatter', mode: 'lines', name: 'US' }]);
-  const daysToDoubleData = JSON.stringify([{ x, y: daysToDouble(posY), type: 'scatter', mode: 'lines', name: 'IL' }]);
+  const totalPositive = numericalDisplay(latestEntry.totalpositive);
+  const totalDeaths = numericalDisplay(latestEntry.totaldeaths);
+  const totalRecovered = numericalDisplay(latestEntry.totalrecovered);
+  const totalPercentPositive = latestEntry.totalPercentPositive;
+  const totalPercentDeaths = latestEntry.totalPercentDead;
+  const totalPercentTested = latestEntry.totalPercentTested;
+  const totalPercentRecovered = latestEntry.percentRecovered;
 
-  res.render('united-states', {
+  const dates = usData.map((datum) => datum.date);
+
+  const dailyPositiveCases = usData.map((datum) => datum.positive);
+  const dailyPositiveCasesLayout = genericLayout("Daily positive cases");
+  const dailyPositiveCasesData = genericScatter(dates, dailyPositiveCases);
+
+  const dailyDeaths = usData.map((datum) => datum.deaths);
+  const dailyDeathsLayout = genericLayout("Daily deaths");
+  const dailyDeathsData = genericScatter(dates, dailyDeaths);
+
+  const dailyPercentPositive = usData.map((datum) => datum.percentPositive);
+  const dailyAvgPercentPositiveData = usData.map(
+    (datum) => datum.avgPercentPositive
+  );
+  const dailyPercentPositiveLayout = genericLayout("Percent positive cases");
+  const dailyPercentPositiveData = JSON.stringify([
+    {
+      x: dates,
+      y: dailyPercentPositive,
+      type: "scatter",
+      mode: "lines",
+      name: "Daily",
+    },
+    {
+      x: dates,
+      y: dailyAvgPercentPositiveData,
+      type: "scatter",
+      mode: "lines",
+      name: "14 day running avg",
+    },
+  ]);
+
+  const dailyPercentDeaths = usData.map((datum) => datum.percentDead);
+  const dailyAvgPercentDeathsData = usData.map(
+    (datum) => datum.avgPercentDeaths
+  );
+  const dailyPercentDeathsLayout = genericLayout("Percent deaths");
+  const dailyPercentDeathsData = JSON.stringify([
+    {
+      x: dates,
+      y: dailyPercentDeaths,
+      type: "scatter",
+      mode: "lines",
+      name: "Daily",
+    },
+    {
+      x: dates,
+      y: dailyAvgPercentDeathsData,
+      type: "scatter",
+      mode: "lines",
+      name: "14 day running avg",
+    },
+  ]);
+
+  res.render("united-states", {
     totalPositive,
     totalDeaths,
-    percentDeaths,
-    percentTested,
-    positiveData,
-    positiveLayout,
-    deathsData,
-    deathsLayout,
-    additionalPositiveData,
-    additionalPositiveLayout,
-    additionalDeathsData,
-    additionalDeathsLayout,
-    percentPositiveLayout,
-    percentDeathsLayout,
-    percentTestedLayout,
-    percentPositiveData,
-    percentDeathsData,
-    percentTestedData,
-    recoveredLayout,
-    percentRecoveredLayout,
-    recoveredData,
-    percentRecoveredData,
-    daysToDoubleLayout,
-    daysToDoubleData,
+    totalPercentPositive,
+    totalPercentDeaths,
+    totalPercentTested,
+    dailyPositiveCasesLayout,
+    dailyPositiveCasesData,
+    dailyDeathsLayout,
+    dailyDeathsData,
+    dailyPercentPositiveLayout,
+    dailyPercentPositiveData,
+    dailyPercentDeathsLayout,
+    dailyPercentDeathsData,
+    totalRecovered,
+    totalPercentRecovered,
   });
 }
 

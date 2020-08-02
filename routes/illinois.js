@@ -1,80 +1,105 @@
-const { showData } = require('../show-data');
+const { showData } = require("../show-data");
 
-function daysToDouble(positiveCounts) {
-  const doubleCounts = [];
-  positiveCounts.map((pos, index) => {
-    const doubledIndex = positiveCounts.findIndex(d => (d >= pos * 2));
-    if (doubledIndex >= 0) {
-      const count = doubledIndex - index;
-      doubleCounts.push(count);
-    }
+function numericalDisplay(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+function genericLayout(title) {
+  return JSON.stringify({
+    title,
+    xaxis: {
+      title: "Date",
+    },
+    yaxis: {
+      title,
+    },
   });
-  return doubleCounts;
+}
+function genericScatter(dates, data) {
+  return JSON.stringify([
+    { x: dates, y: data, type: "scatter", mode: "lines", name: "IL" },
+  ]);
 }
 
 async function illinois(req, res) {
   const { statesData } = await showData();
-  const illinoisData = statesData.filter((datum) => datum.name === 'IL');
+  const illinoisData = statesData.filter((datum) => datum.name === "IL");
   const latestEntry = illinoisData[illinoisData.length - 1];
-  const totalPositive = latestEntry.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-  const totalDeaths = latestEntry.deaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-  const percentDeaths = latestEntry.percentDead;
-  const percentTested = latestEntry.percentTested;
-  const x  = illinoisData.map((datum) => datum.date);
-  const posY = illinoisData.map((datum) => datum.positive);
-  const deathsY = illinoisData.map((datum) => datum.deaths);
-  const addPosY = illinoisData.map((datum) => datum.addedPositive);
-  const addDeathsY = illinoisData.map((datum) => datum.addedDeaths);
-  const percentPosY = illinoisData.map((datum) => datum.percentPositive);
-  const percentDeathsY = illinoisData.map((datum) => datum.percentDead);
-  const percentTestedY = illinoisData.map((datum) => datum.percentTested);
-  const genericLayout = (title) => JSON.stringify({
-    title,
-    xaxis: {
-      title: 'Date'
-    },
-    yaxis: {
-      title
-    }
-  });
-  const positiveLayout = genericLayout('Positive cases');
-  const deathsLayout = genericLayout('Deaths');
-  const additionalPositiveLayout = genericLayout('Added positive cases');
-  const additionalDeathsLayout = genericLayout('Added deaths');
-  const percentPositiveLayout = genericLayout('Percent positive cases');
-  const percentDeathsLayout = genericLayout('Percent deaths');
-  const percentTestedLayout = genericLayout('Percent tested');
-  const daysToDoubleLayout = genericLayout('Days to double');
-  const positiveData = JSON.stringify([{ x, y: posY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const deathsData = JSON.stringify([{ x, y: deathsY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const additionalPositiveData = JSON.stringify([{ x, y: addPosY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const additionalDeathsData = JSON.stringify([{ x, y: addDeathsY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const percentPositiveData = JSON.stringify([{ x, y: percentPosY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const percentDeathsData = JSON.stringify([{ x, y: percentDeathsY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const percentTestedData = JSON.stringify([{ x, y: percentTestedY, type: 'scatter', mode: 'lines', name: 'IL' }]);
-  const daysToDoubleData = JSON.stringify([{ x, y: daysToDouble(posY), type: 'scatter', mode: 'lines', name: 'IL' }]);
+  const totalPositive = numericalDisplay(latestEntry.totalpositive);
+  const totalDeaths = numericalDisplay(latestEntry.totaldeaths);
+  const totalPercentPositive = latestEntry.totalPercentPositive;
+  const totalPercentDeaths = latestEntry.totalPercentDead;
+  const totalPercentTested = latestEntry.totalPercentTested;
 
-  res.render('illinois', {
+  const dates = illinoisData.map((datum) => datum.date);
+
+  const dailyPositiveCases = illinoisData.map((datum) => datum.positive);
+  const dailyPositiveCasesLayout = genericLayout("Daily positive cases");
+  const dailyPositiveCasesData = genericScatter(dates, dailyPositiveCases);
+
+  const dailyDeaths = illinoisData.map((datum) => datum.deaths);
+  const dailyDeathsLayout = genericLayout("Daily deaths");
+  const dailyDeathsData = genericScatter(dates, dailyDeaths);
+
+  const dailyPercentPositive = illinoisData.map(
+    (datum) => datum.percentPositive
+  );
+  const dailyAvgPercentPositiveData = illinoisData.map(
+    (datum) => datum.avgPercentPositive
+  );
+  const dailyPercentPositiveLayout = genericLayout("Percent positive cases");
+  const dailyPercentPositiveData = JSON.stringify([
+    {
+      x: dates,
+      y: dailyPercentPositive,
+      type: "scatter",
+      mode: "lines",
+      name: "Daily",
+    },
+    {
+      x: dates,
+      y: dailyAvgPercentPositiveData,
+      type: "scatter",
+      mode: "lines",
+      name: "14 day running avg",
+    },
+  ]);
+
+  const dailyPercentDeaths = illinoisData.map((datum) => datum.percentDead);
+  const dailyAvgPercentDeathsData = illinoisData.map(
+    (datum) => datum.avgPercentDeaths
+  );
+  const dailyPercentDeathsLayout = genericLayout("Percent deaths");
+  const dailyPercentDeathsData = JSON.stringify([
+    {
+      x: dates,
+      y: dailyPercentDeaths,
+      type: "scatter",
+      mode: "lines",
+      name: "Daily",
+    },
+    {
+      x: dates,
+      y: dailyAvgPercentDeathsData,
+      type: "scatter",
+      mode: "lines",
+      name: "14 day running avg",
+    },
+  ]);
+
+  res.render("illinois", {
     totalPositive,
     totalDeaths,
-    percentDeaths,
-    percentTested,
-    positiveData,
-    positiveLayout,
-    deathsData,
-    deathsLayout,
-    additionalPositiveData,
-    additionalPositiveLayout,
-    additionalDeathsData,
-    additionalDeathsLayout,
-    percentPositiveLayout,
-    percentDeathsLayout,
-    percentTestedLayout,
-    percentPositiveData,
-    percentDeathsData,
-    percentTestedData,
-    daysToDoubleLayout,
-    daysToDoubleData,
+    totalPercentPositive,
+    totalPercentDeaths,
+    totalPercentTested,
+    dailyPositiveCasesLayout,
+    dailyPositiveCasesData,
+    dailyDeathsLayout,
+    dailyDeathsData,
+    dailyPercentPositiveLayout,
+    dailyPercentPositiveData,
+    dailyPercentDeathsLayout,
+    dailyPercentDeathsData,
   });
 }
 

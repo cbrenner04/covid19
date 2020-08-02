@@ -1,123 +1,163 @@
-const { showData } = require('../show-data');
-
-function daysToDouble(positiveCounts) {
-  const doubleCounts = [];
-  positiveCounts.map((pos, index) => {
-    const doubledIndex = positiveCounts.findIndex(d => (d >= pos * 2));
-    if (doubledIndex >= 0) {
-      const count = doubledIndex - index;
-      if (count >= 0 ) doubleCounts.push(count);
-    }
-  });
-  return doubleCounts;
-}
+const { showData } = require("../show-data");
 
 async function states(req, res) {
   const { statesData } = await showData();
   // using illinois just to get dates
-  const illinoisData = statesData.filter((datum) => datum.name === 'IL');
-  const x  = illinoisData.map((datum) => datum.date);
-  let positiveData = [];
-  let deathsData = [];
-  let additionalPositiveData = [];
-  let additionalDeathsData = [];
+  const dates = {
+    IL: statesData
+      .filter((datum) => datum.name === "IL")
+      .map((datum) => datum.date),
+    MN: statesData
+      .filter((datum) => datum.name === "MN")
+      .map((datum) => datum.date),
+    MI: statesData
+      .filter((datum) => datum.name === "MI")
+      .map((datum) => datum.date),
+    OH: statesData
+      .filter((datum) => datum.name === "OH")
+      .map((datum) => datum.date),
+    NY: statesData
+      .filter((datum) => datum.name === "NY")
+      .map((datum) => datum.date),
+  };
+  let dailyPositiveData = [];
+  let dailyDeathsData = [];
   let percentPositiveData = [];
   let percentDeathsData = [];
-  let percentTestedData = [];
+  let avgPercentPositiveData = [];
+  let avgPercentDeathsData = [];
   statesData.forEach((datum) => {
-    const { name, positive, deaths, addedPositive, addedDeaths, percentPositive, percentDead, percentTested } = datum;
-    const positiveI = positiveData.findIndex(d => d.name === name);
-    if (positiveI < 0) {
-      positiveData.push({ x, y: [positive], type: 'scatter', mode: 'lines', name })
+    const {
+      name,
+      positive,
+      deaths,
+      percentPositive,
+      percentDead,
+      avgPercentPositive,
+      avgPercentDeaths,
+    } = datum;
+    const dailyPositiveI = dailyPositiveData.findIndex((d) => d.name === name);
+    if (dailyPositiveI < 0) {
+      dailyPositiveData.push({
+        x: dates[name],
+        y: [positive],
+        type: "scatter",
+        mode: "lines",
+        name,
+      });
     } else {
-      positiveData[positiveI].y.push(positive);
+      dailyPositiveData[dailyPositiveI].y.push(positive);
     }
-    const deathsI = deathsData.findIndex(d => d.name === name);
-    if (deathsI < 0) {
-      deathsData.push({ x, y: [deaths], type: 'scatter', mode: 'lines', name })
+    const dailyDeathsI = dailyDeathsData.findIndex((d) => d.name === name);
+    if (dailyDeathsI < 0) {
+      dailyDeathsData.push({
+        x: dates[name],
+        y: [deaths],
+        type: "scatter",
+        mode: "lines",
+        name,
+      });
     } else {
-      deathsData[deathsI].y.push(deaths);
+      dailyDeathsData[dailyDeathsI].y.push(deaths);
     }
-    const additionalPositiveI = additionalPositiveData.findIndex(d => d.name === name);
-    if (additionalPositiveI < 0) {
-      additionalPositiveData.push({ x, y: [addedPositive], type: 'scatter', mode: 'lines', name })
-    } else {
-      additionalPositiveData[additionalPositiveI].y.push(addedPositive);
+    if (percentPositive < 50) {
+      const percentPositiveI = percentPositiveData.findIndex(
+        (d) => d.name === name
+      );
+      if (percentPositiveI < 0) {
+        percentPositiveData.push({
+          x: dates[name],
+          y: [percentPositive],
+          type: "scatter",
+          mode: "lines",
+          name,
+        });
+      } else {
+        percentPositiveData[percentPositiveI].y.push(percentPositive);
+      }
     }
-    const additionalDeathsI = additionalDeathsData.findIndex(d => d.name === name);
-    if (additionalDeathsI < 0) {
-      additionalDeathsData.push({ x, y: [addedDeaths], type: 'scatter', mode: 'lines', name })
-    } else {
-      additionalDeathsData[additionalDeathsI].y.push(addedDeaths);
+    if (percentDead < 30) {
+      const percentDeathsI = percentDeathsData.findIndex(
+        (d) => d.name === name
+      );
+      if (percentDeathsI < 0) {
+        percentDeathsData.push({
+          x: dates[name],
+          y: [percentDead],
+          type: "scatter",
+          mode: "lines",
+          name,
+        });
+      } else {
+        percentDeathsData[percentDeathsI].y.push(percentDead);
+      }
     }
-    const percentPositiveI = percentPositiveData.findIndex(d => d.name === name);
-    if (percentPositiveI < 0) {
-      percentPositiveData.push({ x, y: [percentPositive], type: 'scatter', mode: 'lines', name })
+    const avgPercentPositiveI = avgPercentPositiveData.findIndex(
+      (d) => d.name === name
+    );
+    if (avgPercentPositiveI < 0) {
+      avgPercentPositiveData.push({
+        x: dates[name],
+        y: [avgPercentPositive],
+        type: "scatter",
+        mode: "lines",
+        name,
+      });
     } else {
-      percentPositiveData[percentPositiveI].y.push(percentPositive);
+      avgPercentPositiveData[avgPercentPositiveI].y.push(avgPercentPositive);
     }
-    const percentDeathsI = percentDeathsData.findIndex(d => d.name === name);
-    if (percentDeathsI < 0) {
-      percentDeathsData.push({ x, y: [percentDead], type: 'scatter', mode: 'lines', name })
-    } else {
-      percentDeathsData[percentDeathsI].y.push(percentDead);
-    }
-    const percentTestedI = percentTestedData.findIndex(d => d.name === name);
-    if (percentTestedI < 0) {
-      percentTestedData.push({ x, y: [percentTested], type: 'scatter', mode: 'lines', name })
-    } else {
-      percentTestedData[percentTestedI].y.push(percentTested);
+    if (avgPercentDeaths < 20) {
+      const avgPercentDeathI = avgPercentDeathsData.findIndex(
+        (d) => d.name === name
+      );
+      if (avgPercentDeathI < 0) {
+        avgPercentDeathsData.push({
+          x: dates[name],
+          y: [avgPercentDeaths],
+          type: "scatter",
+          mode: "lines",
+          name,
+        });
+      } else {
+        avgPercentDeathsData[avgPercentDeathI].y.push(avgPercentDeaths);
+      }
     }
   });
-
-  const daysToDoubleData = JSON.stringify(positiveData.map((posCounts) => {
-    const { x, y, type, mode, name } = posCounts;
-    const doubleTime = daysToDouble(y);
-    return { x, y: doubleTime, type, mode, name };
-  }));
-
-  const genericLayout = (title) => JSON.stringify({
-    title,
-    xaxis: {
-      title: 'Date'
-    },
-    yaxis: {
-      title
-    }
-  });
-  const positiveLayout = genericLayout('Positive cases');
-  const deathsLayout = genericLayout('Deaths');
-  const additionalPositiveLayout = genericLayout('Added positive cases');
-  const additionalDeathsLayout = genericLayout('Added deaths');
-  const percentPositiveLayout = genericLayout('Percent positive cases');
-  const percentDeathsLayout = genericLayout('Percent deaths');
-  const percentTestedLayout = genericLayout('Percent tested');
-  const daysToDoubleLayout = genericLayout('Days to double');
-  positiveData = JSON.stringify(positiveData);
-  deathsData = JSON.stringify(deathsData);
-  additionalPositiveData = JSON.stringify(additionalPositiveData);
-  additionalDeathsData = JSON.stringify(additionalDeathsData);
+  const genericLayout = (title) =>
+    JSON.stringify({
+      title,
+      xaxis: {
+        title: "Date",
+      },
+      yaxis: {
+        title,
+      },
+    });
+  const positiveLayout = genericLayout("Daily positive cases");
+  const deathsLayout = genericLayout("Daily deaths");
+  const percentPositiveLayout = genericLayout("Daily percent positive cases");
+  const percentDeathsLayout = genericLayout("Daily percent deaths");
+  const avgPercentPositiveLayout = genericLayout("14 day avg percent positive");
+  const avgPercentDeathLayout = genericLayout("14 day avg percent deaths");
+  dailyPositiveData = JSON.stringify(dailyPositiveData);
+  dailyDeathsData = JSON.stringify(dailyDeathsData);
   percentPositiveData = JSON.stringify(percentPositiveData);
   percentDeathsData = JSON.stringify(percentDeathsData);
-  percentTestedData = JSON.stringify(percentTestedData);
-
-  res.render('states', {
-    positiveData,
+  avgPercentPositiveData = JSON.stringify(avgPercentPositiveData);
+  avgPercentDeathsData = JSON.stringify(avgPercentDeathsData);
+  res.render("states", {
+    dailyPositiveData,
     positiveLayout,
-    deathsData,
+    dailyDeathsData,
     deathsLayout,
-    additionalPositiveData,
-    additionalPositiveLayout,
-    additionalDeathsData,
-    additionalDeathsLayout,
     percentPositiveLayout,
-    percentDeathsLayout,
-    percentTestedLayout,
     percentPositiveData,
+    percentDeathsLayout,
     percentDeathsData,
-    percentTestedData,
-    daysToDoubleData,
-    daysToDoubleLayout,
+    avgPercentPositiveLayout,
+    avgPercentPositiveData,
+    avgPercentDeathLayout,
+    avgPercentDeathsData,
   });
 }
 

@@ -3,7 +3,7 @@ const {
   disconnectFromDB,
   selectAllStatesData,
   selectAllCountriesData,
-} = require('./database');
+} = require("./database");
 
 const statePopulations = {
   IL: 12670000,
@@ -29,22 +29,46 @@ async function setInitialData() {
   await disconnectFromDB();
 }
 
-const toPercent = (float, precision) => Number((float * 100).toFixed(precision));
+const toPercent = (float, precision) =>
+  Number((float * 100).toFixed(precision));
 
 function setStatesData() {
   statesData = initialStatesData.map((datum, index) => {
-    const { name, date, positive, deaths, totaltested } = datum;
-    const returnObj = { name, date, positive, deaths, totaltested };
-    returnObj.percentPositive = toPercent((positive / totaltested), 2);
-    returnObj.percentDead = toPercent(((deaths || 0) / positive), 2);
-    returnObj.percentTested = toPercent((totaltested / statePopulations[name]), 5);
-
-    const previousDay = initialStatesData[index - 1];
-
-    if (!previousDay || previousDay.name !== name) return returnObj;
-
-    returnObj.addedPositive = positive - previousDay.positive;
-    returnObj.addedDeaths = (deaths || 0) - previousDay.deaths;
+    const {
+      name,
+      date,
+      positive,
+      deaths,
+      tested,
+      totalpositive,
+      totaldeaths,
+      totaltested,
+      avgPercentPositive,
+      avgPercentDeaths,
+    } = datum;
+    const returnObj = {
+      name,
+      date,
+      positive,
+      deaths,
+      tested,
+      totalpositive,
+      totaldeaths,
+      totaltested,
+    };
+    returnObj.totalPercentPositive = toPercent(totalpositive / totaltested, 2);
+    returnObj.totalPercentDead = toPercent(
+      (totaldeaths || 0) / totalpositive,
+      2
+    );
+    returnObj.totalPercentTested = toPercent(
+      totaltested / statePopulations[name],
+      5
+    );
+    returnObj.percentPositive = toPercent(positive / tested, 2);
+    returnObj.percentDead = toPercent((deaths || 0) / positive, 2);
+    returnObj.avgPercentPositive = toPercent(avgPercentPositive, 2);
+    returnObj.avgPercentDeaths = toPercent(avgPercentDeaths, 2);
 
     return returnObj;
   });
@@ -52,18 +76,47 @@ function setStatesData() {
 
 function setCountriesData() {
   countriesData = initialCountriesData.map((datum, index) => {
-    const { name, date, positive, recovered, deaths, totaltested } = datum;
-    const returnObj = { name, date, positive, recovered, deaths, totaltested };
-    const previousDay = initialCountriesData[index - 1];
-    returnObj.percentPositive = toPercent((positive / totaltested), 2);
-    returnObj.percentRecovered = toPercent(((recovered || 0) / positive), 2);
-    returnObj.percentDead = toPercent(((deaths || 0) / positive), 2);
-    returnObj.percentTested = toPercent((totaltested / countryPopulations[name]), 5);
-
-    if (!previousDay) return returnObj;
-
-    returnObj.addedPositive = positive - previousDay.positive;
-    returnObj.addedDeaths = (deaths || 0) - previousDay.deaths;
+    const {
+      name,
+      date,
+      positive,
+      deaths,
+      tested,
+      totalpositive,
+      totalrecovered,
+      totaldeaths,
+      totaltested,
+      avgPercentPositive,
+      avgPercentDeaths,
+    } = datum;
+    const returnObj = {
+      name,
+      date,
+      positive,
+      deaths,
+      tested,
+      totalpositive,
+      totaldeaths,
+      totaltested,
+      totalrecovered,
+    };
+    returnObj.totalPercentPositive = toPercent(totalpositive / totaltested, 2);
+    returnObj.totalPercentDead = toPercent(
+      (totaldeaths || 0) / totalpositive,
+      2
+    );
+    returnObj.totalPercentTested = toPercent(
+      totaltested / countryPopulations[name],
+      5
+    );
+    returnObj.percentRecovered = toPercent(
+      (totalrecovered || 0) / totalpositive,
+      2
+    );
+    returnObj.percentPositive = toPercent(positive / tested, 2);
+    returnObj.percentDead = toPercent((deaths || 0) / positive, 2);
+    returnObj.avgPercentPositive = toPercent(avgPercentPositive, 2);
+    returnObj.avgPercentDeaths = toPercent(avgPercentDeaths, 2);
 
     return returnObj;
   });
@@ -77,7 +130,7 @@ async function showData() {
   return {
     statesData,
     countriesData,
-  }
+  };
 }
 
 module.exports = {

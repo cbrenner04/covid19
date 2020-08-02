@@ -3,30 +3,22 @@
 <br /><br />
 
 <div>
-  <p><strong>Total positive:</strong> {{totalPositive}}</p>
-  <p><strong>Total deaths:</strong> {{totalDeaths}} ({{percentDeaths}}%)</p>
-  <p><strong>Percent tested:</strong> {{percentTested}}%</p>
+  <p><strong>Total positive:</strong> {{totalPositive}} ({{totalPercentPositive}}%)</p>
+  <p><strong>Total deaths:</strong> {{totalDeaths}} ({{totalPercentDeaths}}%)</p>
+  <p><strong>Total percent tested:</strong> {{totalPercentTested}}%</p>
 </div>
 
 <div class="grid-container">
-  <div class="grid-item" id="illinois-positive-cases"></div>
-  <div class="grid-item" id="illinois-deaths"></div>
-  <div class="grid-item" id="illinois-additional-positive-cases"></div>
-  <div class="grid-item" id="illinois-additional-deaths"></div>
-  <div class="grid-item" id="illinois-percent-positive"></div>
-  <div class="grid-item" id="illinois-percent-deaths"></div>
-  <div class="grid-item" id="illinois-percent-tested"></div>
-  <div class="grid-item" id="illinois-days-to-double"></div>
+  <div class="grid-item" id="illinois-daily-positive-cases"></div>
+  <div class="grid-item" id="illinois-daily-deaths"></div>
+  <div class="grid-item" id="illinois-daily-percent-positive"></div>
+  <div class="grid-item" id="illinois-daily-percent-deaths"></div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-  Plotly.newPlot('illinois-positive-cases', {{{positiveData}}}, {{{positiveLayout}}});
-  Plotly.newPlot('illinois-deaths', {{{deathsData}}}, {{{deathsLayout}}});
-  Plotly.newPlot('illinois-additional-positive-cases', {{{additionalPositiveData}}}, {{{additionalPositiveLayout}}});
-  Plotly.newPlot('illinois-additional-deaths', {{{additionalDeathsData}}}, {{{additionalDeathsLayout}}});
-  Plotly.newPlot('illinois-percent-positive', {{{percentPositiveData}}}, {{{percentPositiveLayout}}});
-  Plotly.newPlot('illinois-percent-deaths', {{{percentDeathsData}}}, {{{percentDeathsLayout}}});
-  Plotly.newPlot('illinois-percent-tested', {{{percentTestedData}}}, {{{percentTestedLayout}}});
-  Plotly.newPlot('illinois-days-to-double', {{{daysToDoubleData}}}, {{{daysToDoubleLayout}}});
+  Plotly.newPlot('illinois-daily-positive-cases', {{{ dailyPositiveCasesData }}}, {{{ dailyPositiveCasesLayout }}});
+  Plotly.newPlot('illinois-daily-deaths', {{{ dailyDeathsData }}}, {{{ dailyDeathsLayout }}});
+  Plotly.newPlot('illinois-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}});
+  Plotly.newPlot('illinois-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}});
 </script>
