@@ -2,7 +2,6 @@ const { showData } = require("../show-data");
 
 async function states(req, res) {
   const { statesData } = await showData();
-  // using illinois just to get dates
   const dates = {
     IL: statesData
       .filter((datum) => datum.name === "IL")

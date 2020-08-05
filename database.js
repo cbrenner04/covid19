@@ -154,7 +154,7 @@ const selectAllStatesDataQuery = {
         d.percentPositive,
         d.percentDeaths
       FROM (
-        SELECT generate_series(min(date), CURRENT_DATE - 1, '1d')::DATE AS date
+        SELECT generate_series(min(date), max(date), '1d')::DATE AS date
         FROM states
       ) x
       LEFT JOIN (
@@ -233,7 +233,7 @@ const selectAllCountriesDataQuery = {
         d.percentPositive,
         d.percentDeaths
       FROM (
-        SELECT generate_series(min(date), CURRENT_DATE - 1, '1d')::DATE AS date
+        SELECT generate_series(min(date), max(date), '1d')::DATE AS date
         FROM countries
       ) x
       LEFT JOIN (
