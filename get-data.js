@@ -11,21 +11,10 @@ const getHistoricalStateData = async () => {
   return data.filter(filter);
 };
 
-const getCurrentStateData = async () => {
-  const data = await getData("states", "current");
-  return data.filter(filter);
-};
-
 const getHistoricalUSData = async () => getData("us", "daily");
 
-const getCurrentUSData = async () => {
-  const data = await getData("us", "current");
-  return data[0];
-};
 
 module.exports = {
   getHistoricalStateData,
-  getCurrentStateData,
   getHistoricalUSData,
-  getCurrentUSData,
 };

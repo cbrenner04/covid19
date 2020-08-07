@@ -59,6 +59,7 @@ async function states(req, res) {
     } else {
       dailyDeathsData[dailyDeathsI].y.push(deaths);
     }
+    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
     if (percentPositive < 50) {
       const percentPositiveI = percentPositiveData.findIndex(
         (d) => d.name === name
@@ -75,6 +76,7 @@ async function states(req, res) {
         percentPositiveData[percentPositiveI].y.push(percentPositive);
       }
     }
+    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
     if (percentDead < 30) {
       const percentDeathsI = percentDeathsData.findIndex(
         (d) => d.name === name
@@ -105,6 +107,7 @@ async function states(req, res) {
     } else {
       avgPercentPositiveData[avgPercentPositiveI].y.push(avgPercentPositive);
     }
+    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
     if (avgPercentDeaths < 20) {
       const avgPercentDeathI = avgPercentDeathsData.findIndex(
         (d) => d.name === name
