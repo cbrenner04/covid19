@@ -61,7 +61,18 @@ async function illinois(req, res) {
       y: dailyAvgPercentPositiveData,
       type: "scatter",
       mode: "lines",
-      name: "14 day running avg",
+      name: "7 day running avg",
+    },
+    {
+      x: dates,
+      y: dates.map(() => 5),
+      type: 'scatter',
+      mode: 'lines',
+      line: {
+        dash: 'dot',
+        width: 4,
+      },
+      name: 'Goal',
     },
   ]);
 
@@ -83,7 +94,7 @@ async function illinois(req, res) {
       y: dailyAvgPercentDeathsData,
       type: "scatter",
       mode: "lines",
-      name: "14 day running avg",
+      name: "7 day running avg",
     },
   ]);
 

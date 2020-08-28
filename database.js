@@ -98,9 +98,9 @@ const selectAllStatesDataQuery = {
       statesData.totaldeaths,
       statesData.totaltested,
       AVG(statesData.percentPositive)
-        OVER(PARTITION BY name ORDER BY statesData.date ROWS BETWEEN 14 PRECEDING AND CURRENT ROW) as "avgPercentPositive",
+        OVER(PARTITION BY name ORDER BY statesData.date ROWS BETWEEN 7 PRECEDING AND CURRENT ROW) as "avgPercentPositive",
       AVG(statesData.percentDeaths)
-        OVER(PARTITION BY name ORDER BY statesData.date ROWS BETWEEN 14 PRECEDING AND CURRENT ROW) as "avgPercentDeaths"
+        OVER(PARTITION BY name ORDER BY statesData.date ROWS BETWEEN 7 PRECEDING AND CURRENT ROW) as "avgPercentDeaths"
     FROM (
       SELECT
         x.date,
@@ -176,9 +176,9 @@ const selectAllCountriesDataQuery = {
       countriesData.totaldeaths,
       countriesData.totaltested,
       AVG(countriesData.percentPositive)
-        OVER(PARTITION BY name ORDER BY countriesData.date ROWS BETWEEN 14 PRECEDING AND CURRENT ROW) as "avgPercentPositive",
+        OVER(PARTITION BY name ORDER BY countriesData.date ROWS BETWEEN 7 PRECEDING AND CURRENT ROW) as "avgPercentPositive",
       AVG(countriesData.percentDeaths)
-        OVER(PARTITION BY name ORDER BY countriesData.date ROWS BETWEEN 14 PRECEDING AND CURRENT ROW) as "avgPercentDeaths"
+        OVER(PARTITION BY name ORDER BY countriesData.date ROWS BETWEEN 7 PRECEDING AND CURRENT ROW) as "avgPercentDeaths"
     FROM (
       SELECT
         x.date,

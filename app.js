@@ -4,7 +4,6 @@ require('dotenv').config();
 
 const illinois = require('./routes/illinois');
 const states = require('./routes/states');
-const countries = require('./routes/countries');
 const unitedStates = require('./routes/united-states');
 
 const app = express();
@@ -20,6 +19,5 @@ app.get('/', function (req, res) {
 app.get('/illinois', illinois);
 app.get('/united-states', unitedStates);
 app.get('/states', states);
-app.get('/countries', countries);
 
 app.listen(process.env.PORT);

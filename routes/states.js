@@ -23,7 +23,19 @@ async function states(req, res) {
   let dailyDeathsData = [];
   let percentPositiveData = [];
   let percentDeathsData = [];
-  let avgPercentPositiveData = [];
+  let avgPercentPositiveData = [
+    {
+      x: dates.IL,
+      y: dates.IL.map(() => 5),
+      type: 'scatter',
+      mode: 'lines',
+      line: {
+        dash: 'dot',
+        width: 4,
+      },
+      name: 'Goal',
+    },
+  ];
   let avgPercentDeathsData = [];
   statesData.forEach((datum) => {
     const {
@@ -139,8 +151,8 @@ async function states(req, res) {
   const deathsLayout = genericLayout("Daily deaths");
   const percentPositiveLayout = genericLayout("Daily percent positive cases");
   const percentDeathsLayout = genericLayout("Daily percent deaths");
-  const avgPercentPositiveLayout = genericLayout("14 day avg percent positive");
-  const avgPercentDeathLayout = genericLayout("14 day avg percent deaths");
+  const avgPercentPositiveLayout = genericLayout("7 day avg percent positive");
+  const avgPercentDeathLayout = genericLayout("7 day avg percent deaths");
   dailyPositiveData = JSON.stringify(dailyPositiveData);
   dailyDeathsData = JSON.stringify(dailyDeathsData);
   percentPositiveData = JSON.stringify(percentPositiveData);
