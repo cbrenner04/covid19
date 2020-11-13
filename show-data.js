@@ -5,18 +5,6 @@ const {
   selectAllCountriesData,
 } = require("./database");
 
-const statePopulations = {
-  IL: 12670000,
-  OH: 11690000,
-  MN: 5640000,
-  MI: 9987000,
-  NY: 19450000,
-};
-
-const countryPopulations = {
-  US: 328200000,
-};
-
 let statesData;
 let countriesData;
 let initialStatesData;
@@ -29,22 +17,25 @@ async function setInitialData() {
   await disconnectFromDB();
 }
 
-const toPercent = (float, precision) =>
-  Number((float * 100).toFixed(precision));
+const toPercent = (float, precision) => Number((float * 100).toFixed(precision));
 
 function setStatesData() {
-  statesData = initialStatesData.map((datum, index) => {
+  statesData = initialStatesData.map((datum) => {
     const {
       name,
       date,
       positive,
       deaths,
       tested,
-      totalpositive,
-      totaldeaths,
-      totaltested,
+      total_positive,
+      total_deaths,
+      total_tested,
       avgPercentPositive,
       avgPercentDeaths,
+      avgPositive,
+      avgDeath,
+      hospitalized_currently,
+      in_icu_currently,
     } = datum;
     const returnObj = {
       name,
@@ -52,19 +43,16 @@ function setStatesData() {
       positive,
       deaths,
       tested,
-      totalpositive,
-      totaldeaths,
-      totaltested,
+      totalPositive: total_positive,
+      totalDeaths: total_deaths,
+      totalTested: total_tested,
+      avgPositive,
+      avgDeath,
+      hospitalizedCurrently: hospitalized_currently,
+      inIcuCurrently: in_icu_currently,
     };
-    returnObj.totalPercentPositive = toPercent(totalpositive / totaltested, 2);
-    returnObj.totalPercentDead = toPercent(
-      (totaldeaths || 0) / totalpositive,
-      2
-    );
-    returnObj.totalPercentTested = toPercent(
-      totaltested / statePopulations[name],
-      5
-    );
+    returnObj.totalPercentPositive = toPercent(total_positive / total_tested, 2);
+    returnObj.totalPercentDead = toPercent((total_deaths || 0) / total_positive, 2);
     returnObj.percentPositive = toPercent(positive / tested, 2);
     returnObj.percentDead = toPercent((deaths || 0) / positive, 2);
     returnObj.avgPercentPositive = toPercent(avgPercentPositive, 2);
@@ -82,12 +70,16 @@ function setCountriesData() {
       positive,
       deaths,
       tested,
-      totalpositive,
-      totalrecovered,
-      totaldeaths,
-      totaltested,
+      total_positive,
+      total_recovered,
+      total_deaths,
+      total_tested,
       avgPercentPositive,
       avgPercentDeaths,
+      avgPositive,
+      avgDeaths,
+      hospitalized_currently,
+      in_icu_currently,
     } = datum;
     const returnObj = {
       name,
@@ -95,24 +87,18 @@ function setCountriesData() {
       positive,
       deaths,
       tested,
-      totalpositive,
-      totaldeaths,
-      totaltested,
-      totalrecovered,
+      totalPositive: total_positive,
+      totalDeaths: total_deaths,
+      totalTested: total_tested,
+      totalRecovered: total_recovered,
+      avgPositive,
+      avgDeaths,
+      hospitalizedCurrently: hospitalized_currently,
+      inIcuCurrently: in_icu_currently,
     };
-    returnObj.totalPercentPositive = toPercent(totalpositive / totaltested, 2);
-    returnObj.totalPercentDead = toPercent(
-      (totaldeaths || 0) / totalpositive,
-      2
-    );
-    returnObj.totalPercentTested = toPercent(
-      totaltested / countryPopulations[name],
-      5
-    );
-    returnObj.percentRecovered = toPercent(
-      (totalrecovered || 0) / totalpositive,
-      2
-    );
+    returnObj.totalPercentPositive = toPercent(total_positive / total_tested, 2);
+    returnObj.totalPercentDead = toPercent((total_deaths || 0) / total_positive, 2);
+    returnObj.percentRecovered = toPercent((total_recovered || 0) / total_positive, 2);
     returnObj.percentPositive = toPercent(positive / tested, 2);
     returnObj.percentDead = toPercent((deaths || 0) / positive, 2);
     returnObj.avgPercentPositive = toPercent(avgPercentPositive, 2);
@@ -127,12 +113,7 @@ async function showData() {
   setStatesData();
   setCountriesData();
 
-  return {
-    statesData,
-    countriesData,
-  };
+  return { statesData, countriesData };
 }
 
-module.exports = {
-  showData,
-};
+module.exports = { showData };

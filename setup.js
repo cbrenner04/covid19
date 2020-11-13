@@ -27,6 +27,8 @@ async function seedStatesData() {
       datum.positive,
       datum.death,
       datum.totalTestResults,
+      datum.hospitalizedCurrently,
+      datum.inIcuCurrently,
     ];
   });
   for (values of allValues) {
@@ -43,11 +45,13 @@ async function seedCountriesData() {
       dateValue,
       datum.positiveIncrease,
       datum.deathIncrease,
-      datum.positiveIncrease + datum.negativeIncrease,
+      datum.totalTestResultsIncrease,
       datum.positive,
       datum.recovered,
       datum.death,
       datum.totalTestResults,
+      datum.hospitalizedCurrently,
+      datum.inIcuCurrently,
     ];
   });
   for (values of allValues) {

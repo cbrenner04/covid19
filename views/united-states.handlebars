@@ -5,8 +5,8 @@
 <div>
   <p><strong>Total positive:</strong> {{totalPositive}} ({{totalPercentPositive}}%)</p>
   <p><strong>Total deaths:</strong> {{totalDeaths}} ({{totalPercentDeaths}}%)</p>
-  <p><strong>Percent tested:</strong> {{totalPercentTested}}%</p>
-  <p><strong>Percent recovered:</strong> {{totalRecovered}} ({{totalPercentRecovered}}%)</p>
+  <p><strong>Total tests</strong> {{totalTests}}</p>
+  <p><strong>Total recovered:</strong> {{totalRecovered}} ({{totalPercentRecovered}}%)</p>
 </div>
 
 <div class="grid-container">
@@ -14,12 +14,16 @@
   <div class="grid-item" id="us-daily-deaths"></div>
   <div class="grid-item" id="us-daily-percent-positive"></div>
   <div class="grid-item" id="us-daily-percent-deaths"></div>
+  <div class="grid-item" id="us-daily-hospitalized-currently"></div>
+  <div class="grid-item" id="us-daily-in-icu-currently"></div>
 </div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-  Plotly.newPlot('us-daily-positive-cases', {{{ dailyPositiveCasesData }}}, {{{ dailyPositiveCasesLayout }}});
+  Plotly.newPlot('us-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}});
   Plotly.newPlot('us-daily-deaths', {{{ dailyDeathsData }}}, {{{ dailyDeathsLayout }}});
   Plotly.newPlot('us-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}});
   Plotly.newPlot('us-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}});
+  Plotly.newPlot('us-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}});
+  Plotly.newPlot('us-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}});
 </script>

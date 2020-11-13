@@ -21,8 +21,8 @@ async function states(req, res) {
   };
   let dailyPositiveData = [];
   let dailyDeathsData = [];
-  let percentPositiveData = [];
-  let percentDeathsData = [];
+  let currentHospitalizationData = [];
+  let currentIcuData = [];
   let avgPercentPositiveData = [
     {
       x: dates.IL,
@@ -40,74 +40,38 @@ async function states(req, res) {
   statesData.forEach((datum) => {
     const {
       name,
-      positive,
-      deaths,
-      percentPositive,
-      percentDead,
       avgPercentPositive,
       avgPercentDeaths,
+      avgPositive,
+      avgDeath,
+      hospitalizedCurrently,
+      inIcuCurrently,
     } = datum;
     const dailyPositiveI = dailyPositiveData.findIndex((d) => d.name === name);
     if (dailyPositiveI < 0) {
       dailyPositiveData.push({
         x: dates[name],
-        y: [positive],
+        y: [avgPositive],
         type: "scatter",
         mode: "lines",
         name,
       });
     } else {
-      dailyPositiveData[dailyPositiveI].y.push(positive);
+      dailyPositiveData[dailyPositiveI].y.push(avgPositive);
     }
     const dailyDeathsI = dailyDeathsData.findIndex((d) => d.name === name);
     if (dailyDeathsI < 0) {
       dailyDeathsData.push({
         x: dates[name],
-        y: [deaths],
+        y: [avgDeath],
         type: "scatter",
         mode: "lines",
         name,
       });
     } else {
-      dailyDeathsData[dailyDeathsI].y.push(deaths);
+      dailyDeathsData[dailyDeathsI].y.push(avgDeath);
     }
-    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
-    if (percentPositive < 50) {
-      const percentPositiveI = percentPositiveData.findIndex(
-        (d) => d.name === name
-      );
-      if (percentPositiveI < 0) {
-        percentPositiveData.push({
-          x: dates[name],
-          y: [percentPositive],
-          type: "scatter",
-          mode: "lines",
-          name,
-        });
-      } else {
-        percentPositiveData[percentPositiveI].y.push(percentPositive);
-      }
-    }
-    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
-    if (percentDead < 30) {
-      const percentDeathsI = percentDeathsData.findIndex(
-        (d) => d.name === name
-      );
-      if (percentDeathsI < 0) {
-        percentDeathsData.push({
-          x: dates[name],
-          y: [percentDead],
-          type: "scatter",
-          mode: "lines",
-          name,
-        });
-      } else {
-        percentDeathsData[percentDeathsI].y.push(percentDead);
-      }
-    }
-    const avgPercentPositiveI = avgPercentPositiveData.findIndex(
-      (d) => d.name === name
-    );
+    const avgPercentPositiveI = avgPercentPositiveData.findIndex((d) => d.name === name);
     if (avgPercentPositiveI < 0) {
       avgPercentPositiveData.push({
         x: dates[name],
@@ -119,11 +83,9 @@ async function states(req, res) {
     } else {
       avgPercentPositiveData[avgPercentPositiveI].y.push(avgPercentPositive);
     }
-    // TODO: can we be more programmatic about what we consider outliers and how we handle them?
+    // // TODO: can we be more programmatic about what we consider outliers and how we handle them?
     if (avgPercentDeaths < 20) {
-      const avgPercentDeathI = avgPercentDeathsData.findIndex(
-        (d) => d.name === name
-      );
+      const avgPercentDeathI = avgPercentDeathsData.findIndex((d) => d.name === name);
       if (avgPercentDeathI < 0) {
         avgPercentDeathsData.push({
           x: dates[name],
@@ -136,6 +98,30 @@ async function states(req, res) {
         avgPercentDeathsData[avgPercentDeathI].y.push(avgPercentDeaths);
       }
     }
+    const currentHospitalizationsI = currentHospitalizationData.findIndex((d) => d.name === name);
+    if (currentHospitalizationsI < 0) {
+      currentHospitalizationData.push({
+        x: dates[name],
+        y: [hospitalizedCurrently],
+        type: "scatter",
+        mode: "lines",
+        name,
+      });
+    } else {
+      currentHospitalizationData[currentHospitalizationsI].y.push(hospitalizedCurrently);
+    }
+    const currentIcuI = currentIcuData.findIndex((d) => d.name === name);
+    if (currentIcuI < 0) {
+      currentIcuData.push({
+        x: dates[name],
+        y: [inIcuCurrently],
+        type: "scatter",
+        mode: "lines",
+        name,
+      });
+    } else {
+      currentIcuData[currentIcuI].y.push(inIcuCurrently);
+    }
   });
   const genericLayout = (title) =>
     JSON.stringify({
@@ -147,31 +133,31 @@ async function states(req, res) {
         title,
       },
     });
-  const positiveLayout = genericLayout("Daily positive cases");
-  const deathsLayout = genericLayout("Daily deaths");
-  const percentPositiveLayout = genericLayout("Daily percent positive cases");
-  const percentDeathsLayout = genericLayout("Daily percent deaths");
+  const positiveLayout = genericLayout("7 day average Positive Cases");
+  const deathsLayout = genericLayout("7 day average Deaths");
   const avgPercentPositiveLayout = genericLayout("7 day avg percent positive");
   const avgPercentDeathLayout = genericLayout("7 day avg percent deaths");
+  const currentHospitalizationLayout = genericLayout("Current Hospitalizations");
+  const currentIcuLayout = genericLayout("Current ICU stays");
   dailyPositiveData = JSON.stringify(dailyPositiveData);
   dailyDeathsData = JSON.stringify(dailyDeathsData);
-  percentPositiveData = JSON.stringify(percentPositiveData);
-  percentDeathsData = JSON.stringify(percentDeathsData);
   avgPercentPositiveData = JSON.stringify(avgPercentPositiveData);
   avgPercentDeathsData = JSON.stringify(avgPercentDeathsData);
+  currentHospitalizationData = JSON.stringify(currentHospitalizationData);
+  currentIcuData = JSON.stringify(currentIcuData);
   res.render("states", {
     dailyPositiveData,
     positiveLayout,
     dailyDeathsData,
     deathsLayout,
-    percentPositiveLayout,
-    percentPositiveData,
-    percentDeathsLayout,
-    percentDeathsData,
     avgPercentPositiveLayout,
     avgPercentPositiveData,
     avgPercentDeathLayout,
     avgPercentDeathsData,
+    currentHospitalizationLayout,
+    currentHospitalizationData,
+    currentIcuLayout,
+    currentIcuData,
   });
 }
 
