@@ -20,10 +20,10 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-  Plotly.newPlot('us-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}});
-  Plotly.newPlot('us-daily-deaths', {{{ dailyDeathsData }}}, {{{ dailyDeathsLayout }}});
-  Plotly.newPlot('us-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}});
-  Plotly.newPlot('us-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}});
-  Plotly.newPlot('us-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}});
-  Plotly.newPlot('us-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}});
+  Plotly.newPlot('us-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}}, { responsive: true });
+  Plotly.newPlot('us-daily-deaths', {{{ dailyDeathsData }}}, {{{ dailyDeathsLayout }}}, { responsive: true });
+  Plotly.newPlot('us-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}}, { responsive: true });
+  Plotly.newPlot('us-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}}, { responsive: true });
+  Plotly.newPlot('us-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true });
+  Plotly.newPlot('us-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}}, { responsive: true });
 </script>
