@@ -19,10 +19,10 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-  Plotly.newPlot('illinois-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}}, { responsive: true });
-  Plotly.newPlot('illinois-daily-deaths', {{{ dailyDeathData }}}, {{{ dailyDeathLayout }}}, { responsive: true });
-  Plotly.newPlot('illinois-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}}, { responsive: true });
-  Plotly.newPlot('illinois-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}}, { responsive: true });
-  Plotly.newPlot('illinois-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true });
-  Plotly.newPlot('illinois-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}}, { responsive: true });
+  Plotly.newPlot('illinois-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('illinois-daily-deaths', {{{ dailyDeathData }}}, {{{ dailyDeathLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('illinois-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('illinois-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('illinois-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('illinois-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}}, { responsive: true, displayModeBar: false });
 </script>

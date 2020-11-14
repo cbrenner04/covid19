@@ -13,10 +13,10 @@
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-  Plotly.newPlot('states-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ positiveLayout }}}, { responsive: true });
-  Plotly.newPlot('states-daily-deaths', {{{ dailyDeathsData }}}, {{{ deathsLayout }}}, { responsive: true });
-  Plotly.newPlot('states-avg-percent-positive', {{{ avgPercentPositiveData }}}, {{{ avgPercentPositiveLayout }}}, { responsive: true });
-  Plotly.newPlot('states-avg-percent-deaths', {{{ avgPercentDeathsData }}}, {{{ avgPercentDeathLayout }}}, { responsive: true });
-  Plotly.newPlot('states-hospitalizations', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true });
-  Plotly.newPlot('states-icu', {{{ currentIcuData }}}, {{{ currentIcuLayout }}}, { responsive: true });
+  Plotly.newPlot('states-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ positiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('states-daily-deaths', {{{ dailyDeathsData }}}, {{{ deathsLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('states-avg-percent-positive', {{{ avgPercentPositiveData }}}, {{{ avgPercentPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('states-avg-percent-deaths', {{{ avgPercentDeathsData }}}, {{{ avgPercentDeathLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('states-hospitalizations', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('states-icu', {{{ currentIcuData }}}, {{{ currentIcuLayout }}}, { responsive: true, displayModeBar: false });
 </script>
