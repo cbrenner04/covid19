@@ -47,7 +47,6 @@ async function seedCountriesData() {
       datum.deathIncrease,
       datum.totalTestResultsIncrease,
       datum.positive,
-      datum.recovered,
       datum.death,
       datum.totalTestResults,
       datum.hospitalizedCurrently,

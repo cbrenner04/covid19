@@ -1,0 +1,28 @@
+<h1>Maryland</h1>
+<a href="/">Home</a>
+<br /><br />
+
+<div>
+  <p><strong>Total positive:</strong> {{totalPositive}} ({{totalPercentPositive}}%)</p>
+  <p><strong>Total deaths:</strong> {{totalDeaths}} ({{totalPercentDeaths}}%)</p>
+  <p><strong>Total tests:</strong> {{totalTests}}</p>
+</div>
+
+<div class="grid-container">
+  <div class="grid-item" id="maryland-daily-positive-cases"></div>
+  <div class="grid-item" id="maryland-daily-deaths"></div>
+  <div class="grid-item" id="maryland-daily-percent-positive"></div>
+  <div class="grid-item" id="maryland-daily-percent-deaths"></div>
+  <div class="grid-item" id="maryland-daily-hospitalized-currently"></div>
+  <div class="grid-item" id="maryland-daily-in-icu-currently"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  Plotly.newPlot('maryland-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('maryland-daily-deaths', {{{ dailyDeathData }}}, {{{ dailyDeathLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('maryland-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('maryland-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('maryland-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('maryland-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}}, { responsive: true, displayModeBar: false });
+</script>

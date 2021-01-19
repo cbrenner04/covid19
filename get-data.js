@@ -1,6 +1,6 @@
 const request = require("request-promise-native");
 
-const filter = (d) => ["IL", "OH", "MI", "NY", "MN"].includes(d.state);
+const filter = (d) => ["IL", "OH", "MI", "NY", "MN", "MD", "DC"].includes(d.state);
 const getData = async (which, what) =>
   JSON.parse(
     await request(`https://covidtracking.com/api/v1/${which}/${what}.json`)

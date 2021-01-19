@@ -18,6 +18,12 @@ async function states(req, res) {
     NY: statesData
       .filter((datum) => datum.name === "NY")
       .map((datum) => datum.date),
+    MD: statesData
+    .filter((datum) => datum.name === "MD")
+    .map((datum) => datum.date),
+    DC: statesData
+    .filter((datum) => datum.name === "DC")
+    .map((datum) => datum.date),
   };
   let dailyPositiveData = [];
   let dailyDeathsData = [];

@@ -44,7 +44,6 @@ const createCountryDataTableQuery = {
       deaths                    integer,
       tested                    integer,
       total_positive            integer,
-      total_recovered           integer,
       total_deaths              integer,
       total_tested              integer,
       hospitalized_currently    integer,
@@ -72,13 +71,13 @@ async function insertIntoStates(values) {
   await client.query(insertIntoStatesQuery(values));
 }
 
-const countriesColumns = "name, date, positive, deaths, tested, total_positive, total_recovered, total_deaths, total_tested, hospitalized_currently, in_icu_currently";
+const countriesColumns = "name, date, positive, deaths, tested, total_positive, total_deaths, total_tested, hospitalized_currently, in_icu_currently";
 
 const insertIntoCountriesQuery = (values) => ({
   name: "insert-into-countries",
   text: `
     INSERT INTO countries (${countriesColumns})
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
   `,
   values,
 });
@@ -184,7 +183,6 @@ const selectAllCountriesDataQuery = {
       countriesData.deaths,
       countriesData.tested,
       countriesData.total_positive,
-      countriesData.total_recovered,
       countriesData.total_deaths,
       countriesData.total_tested,
       countriesData.hospitalized_currently,
@@ -205,7 +203,6 @@ const selectAllCountriesDataQuery = {
         d.deaths,
         d.tested,
         d.total_positive,
-        d.total_recovered,
         d.total_deaths,
         d.total_tested,
         d.percentPositive,
@@ -224,7 +221,6 @@ const selectAllCountriesDataQuery = {
           deaths,
           tested,
           total_positive,
-          total_recovered,
           total_deaths,
           total_tested,
           hospitalized_currently,
@@ -247,7 +243,6 @@ const selectAllCountriesDataQuery = {
         d.deaths,
         d.tested,
         d.total_positive,
-        d.total_recovered,
         d.total_deaths,
         d.total_tested,
         d.percentPositive,

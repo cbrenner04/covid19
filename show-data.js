@@ -71,7 +71,6 @@ function setCountriesData() {
       deaths,
       tested,
       total_positive,
-      total_recovered,
       total_deaths,
       total_tested,
       avgPercentPositive,
@@ -90,7 +89,6 @@ function setCountriesData() {
       totalPositive: total_positive,
       totalDeaths: total_deaths,
       totalTested: total_tested,
-      totalRecovered: total_recovered,
       avgPositive,
       avgDeaths,
       hospitalizedCurrently: hospitalized_currently,
@@ -98,7 +96,6 @@ function setCountriesData() {
     };
     returnObj.totalPercentPositive = toPercent(total_positive / total_tested, 2);
     returnObj.totalPercentDead = toPercent((total_deaths || 0) / total_positive, 2);
-    returnObj.percentRecovered = toPercent((total_recovered || 0) / total_positive, 2);
     returnObj.percentPositive = toPercent(positive / tested, 2);
     returnObj.percentDead = toPercent((deaths || 0) / positive, 2);
     returnObj.avgPercentPositive = toPercent(avgPercentPositive, 2);

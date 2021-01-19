@@ -1,0 +1,28 @@
+<h1>DC</h1>
+<a href="/">Home</a>
+<br /><br />
+
+<div>
+  <p><strong>Total positive:</strong> {{totalPositive}} ({{totalPercentPositive}}%)</p>
+  <p><strong>Total deaths:</strong> {{totalDeaths}} ({{totalPercentDeaths}}%)</p>
+  <p><strong>Total tests:</strong> {{totalTests}}</p>
+</div>
+
+<div class="grid-container">
+  <div class="grid-item" id="dc-daily-positive-cases"></div>
+  <div class="grid-item" id="dc-daily-deaths"></div>
+  <div class="grid-item" id="dc-daily-percent-positive"></div>
+  <div class="grid-item" id="dc-daily-percent-deaths"></div>
+  <div class="grid-item" id="dc-daily-hospitalized-currently"></div>
+  <div class="grid-item" id="dc-daily-in-icu-currently"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+  Plotly.newPlot('dc-daily-positive-cases', {{{ dailyPositiveData }}}, {{{ dailyPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('dc-daily-deaths', {{{ dailyDeathData }}}, {{{ dailyDeathLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('dc-daily-percent-positive', {{{ dailyPercentPositiveData }}}, {{{ dailyPercentPositiveLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('dc-daily-percent-deaths', {{{ dailyPercentDeathsData }}}, {{{ dailyPercentDeathsLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('dc-daily-hospitalized-currently', {{{ currentHospitalizationData }}}, {{{ currentHospitalizationLayout }}}, { responsive: true, displayModeBar: false });
+  Plotly.newPlot('dc-daily-in-icu-currently', {{{ inIcuCurrentlyData }}}, {{{ inIcuCurrentlyLayout }}}, { responsive: true, displayModeBar: false });
+</script>

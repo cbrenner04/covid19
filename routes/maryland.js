@@ -1,19 +1,18 @@
 const { showData } = require("../show-data");
-const { genericLayout, numericalDisplay } = require('./util');
+const { numericalDisplay, genericLayout } = require('./util');
 
-async function unitedStates(req, res) {
-  const { countriesData } = await showData();
-  const usData = countriesData.filter((datum) => datum.name === "US");
-  const latestEntry = usData[usData.length - 1];
+async function maryland(req, res) {
+  const { statesData } = await showData();
+  const marylandData = statesData.filter((datum) => datum.name === "MD");
+  const latestEntry = marylandData[marylandData.length - 1];
   const totalPositive = numericalDisplay(latestEntry.totalPositive);
   const totalDeaths = numericalDisplay(latestEntry.totalDeaths);
   const totalPercentPositive = latestEntry.totalPercentPositive;
   const totalPercentDeaths = latestEntry.totalPercentDead;
   const totalTests = numericalDisplay(latestEntry.totalTested);
+  const dates = marylandData.map((datum) => datum.date);
 
-  const dates = usData.map((datum) => datum.date);
-
-  const dailyAvgPositiveData = usData.map((datum) => datum.avgPositive);
+  const dailyAvgPositiveData = marylandData.map((datum) => datum.avgPositive);
   const dailyPositiveLayout = genericLayout("7 day average Positive Cases");
   const dailyPositiveData = JSON.stringify([
     {
@@ -25,9 +24,9 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  const dailyAvgDeathData = usData.map((datum) => datum.avgDeaths);
-  const dailyDeathsLayout = genericLayout("7 day average Deaths");
-  const dailyDeathsData = JSON.stringify([
+  const dailyAvgDeathData = marylandData.map((datum) => datum.avgDeath);
+  const dailyDeathLayout = genericLayout("7 day average Deaths");
+  const dailyDeathData = JSON.stringify([
     {
       x: dates,
       y: dailyAvgDeathData,
@@ -37,7 +36,7 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  const dailyAvgPercentPositiveData = usData.map((datum) => datum.avgPercentPositive);
+  const dailyAvgPercentPositiveData = marylandData.map((datum) => datum.avgPercentPositive);
   const dailyPercentPositiveLayout = genericLayout("7 day average Percent positive cases");
   const dailyPercentPositiveData = JSON.stringify([
     {
@@ -60,7 +59,7 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  const dailyAvgPercentDeathsData = usData.map((datum) => datum.avgPercentDeaths);
+  const dailyAvgPercentDeathsData = marylandData.map((datum) => datum.avgPercentDeaths);
   const dailyPercentDeathsLayout = genericLayout("7 day average Percent deaths");
   const dailyPercentDeathsData = JSON.stringify([
     {
@@ -72,7 +71,7 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  const hospitalizationData = usData.map((datum) => datum.hospitalizedCurrently);
+  const hospitalizationData = marylandData.map((datum) => datum.hospitalizedCurrently);
   const currentHospitalizationLayout = genericLayout("Current Hospitalizations");
   const currentHospitalizationData = JSON.stringify([
     {
@@ -84,7 +83,7 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  const inIcuCurrently = usData.map((datum) => datum.inIcuCurrently);
+  const inIcuCurrently = marylandData.map((datum) => datum.inIcuCurrently);
   const inIcuCurrentlyLayout = genericLayout("Current ICU stays");
   const inIcuCurrentlyData = JSON.stringify([
     {
@@ -96,25 +95,25 @@ async function unitedStates(req, res) {
     },
   ]);
 
-  res.render("united-states", {
+  res.render("maryland", {
     totalPositive,
     totalDeaths,
     totalPercentPositive,
     totalPercentDeaths,
     totalTests,
-    dailyPositiveLayout,
-    dailyPositiveData,
-    dailyDeathsLayout,
-    dailyDeathsData,
     dailyPercentPositiveLayout,
     dailyPercentPositiveData,
     dailyPercentDeathsLayout,
     dailyPercentDeathsData,
-    currentHospitalizationLayout,
+    dailyPositiveLayout,
+    dailyPositiveData,
+    dailyDeathLayout,
+    dailyDeathData,
     currentHospitalizationData,
-    inIcuCurrentlyLayout,
+    currentHospitalizationLayout,
     inIcuCurrentlyData,
+    inIcuCurrentlyLayout,
   });
 }
 
-module.exports = unitedStates;
+module.exports = maryland;
