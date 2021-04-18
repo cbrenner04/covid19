@@ -5,7 +5,6 @@ let client;
 const connectToDB = async () => {
   client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: true
   });
   await client.connect();
 };
